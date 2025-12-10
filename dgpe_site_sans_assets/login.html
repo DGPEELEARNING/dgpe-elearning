@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Connexion – DGPE</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body class="login-page">
+
+<div class="navbar-login">
+  <div class="wrap">
+    <div class="logo-group">
+      <div class="logo-wrapper">
+        <img src="./assets/img/DGPE_logo.png" class="logo" alt="DGPE">
+      </div>
+      <span class="brand">e-Learning</span> 
+    </div>
+  </div>
+</div>
+
+<section class="hero" style="background:none;min-height:auto;padding-top:60px;text-align:center">
+  <div class="inner">
+    <h1>Connexion</h1>
+    <p>Accédez à vos cours et à votre tableau de bord</p>
+  </div>
+</section>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <h2>Se connecter</h2>
+
+    <label>Email professionnel</label>
+    <input id="email" class="input" type="email" placeholder="prenom.nom@dgpe.gouv">
+
+    <label>Mot de passe</label>
+    <input id="password" class="input" type="password" placeholder="••••••••">
+
+    <div class="row">
+      <label><input type="checkbox"> Se souvenir de moi</label>
+      <a href="#">Mot de passe oublié ?</a>
+    </div>
+
+    <button class="btn btn-primary" onclick="login()">Connexion</button>
+
+    <br><br>
+
+    <button class="btn btn-secondary" onclick="register()">Créer un compte</button>
+  </div>
+</div>
+
+<footer class="footer">
+© 2025 DGPE – Direction Générale du Portefeuille de l’État
+</footer>
+
+<!-- ✅ SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* ===============================
+   ✅ CONFIG SUPABASE
+================================ */
+const SUPABASE_URL = "https://hrriedjmpwjfmfimqlmx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_1AnZMUSy3A4X8xIrKJOKQw_cOX40j9V";
+
+// ✅ NE PAS UTILISER "const supabase = supabase..."
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* ===============================
+   ✅ CONNEXION
+================================ */
+async function login() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!email || !password) {
+    alert("❌ Veuillez remplir tous les champs.");
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    alert("❌ Connexion refusée : " + error.message);
+  } else {
+    alert("✅ Connexion réussie !");
+    window.location.href = "dashboard.html";
+  }
+}
+
+/* ===============================
+   ✅ INSCRIPTION
+================================ */
+async function register() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!email || !password) {
+    alert("❌ Veuillez remplir tous les champs.");
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) {
+    alert("❌ Erreur inscription : " + error.message);
+  } else {
+    alert("✅ Compte créé ! Vérifiez votre email avant de vous connecter.");
+  }
+}
+</script>
+
+</body>
+</html>

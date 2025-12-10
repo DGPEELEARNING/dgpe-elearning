@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module – DGPE</title>
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<div class="navbar-login">
+  <div class="wrap">
+    <div class="logo-group">
+      <div class="logo-wrapper">
+        <img src="./assets/img/DGPE_logo.png" class="logo" alt="DGPE">
+      </div>
+      <span class="brand">e-Learning</span> 
+    </div>
+
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">Administration</a>
+      <a class="btn-small" href="login.html">Déconnexion</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="inner">
+    <h1 id="titre">Chargement...</h1>
+    <p id="description"></p>
+  </div>
+</section>
+
+<!-- ================= CONTENU ================= -->
+<section class="wrap" style="padding:50px 0">
+
+  <div class="panel" id="moduleCard">
+    <h2 id="moduleTitle"></h2>
+
+    <p><strong>Domaine :</strong> <span id="moduleDomaine"></span></p>
+    <p><strong>Durée :</strong> <span id="moduleDuree"></span></p>
+
+    <p id="moduleResume" style="margin-top:10px;"></p>
+
+    <button class="btn btn-primary" onclick="inscrireModule()">
+      ✅ S'inscrire à ce module
+    </button>
+
+    <div id="message" style="margin-top:20px;font-weight:bold"></div>
+  </div>
+
+</section>
+
+<footer class="footer">
+© 2025 DGPE – Direction Générale du Portefeuille de l’État
+</footer>
+
+<script>
+/* ================= SUPABASE ================= */
+const supabaseUrl = "https://hrriedjmpwjfmfimqlmx.supabase.co";
+const supabaseKey = "sb_publishable_1AnZMUSy3A4X8xIrKJOKQw_cOX40j9V";
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+/* ================= ID MODULE ================= */
+const params = new URLSearchParams(window.location.search);
+const moduleId = params.get("id");
+
+let moduleActuel = null;
+
+/* ================= CHARGEMENT MODULE ================= */
+async function chargerModule() {
+  if (!moduleId) {
+    document.getElementById("moduleCard").innerHTML = "❌ Aucun module sélectionné";
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("modules")
+    .select("*")
+    .eq("id", moduleId)
+    .single();
+
+  if (error || !data) {
+    console.error(error);
+    document.getElementById("moduleCard").innerHTML = "❌ Module introuvable";
+    return;
+  }
+
+  moduleActuel = data;
+
+  document.getElementById("titre").innerText = data.titre;
+  document.getElementById("moduleTitle").innerText = data.titre;
+  document.getElementById("moduleDomaine").innerText = data.domaine;
+  document.getElementById("moduleDuree").innerText = data.duree;
+  document.getElementById("moduleResume").innerText = data.resume;
+}
+
+chargerModule();
+
+/* ================= INSCRIPTION SÉCURISÉE ================= */
+async function inscrireModule() {
+  const { data: userData } = await supabase.auth.getUser();
+
+  if (!userData.user) {
+    alert("⚠️ Vous devez être connecté !");
+    return;
+  }
+
+  const userId = userData.user.id;
+
+  // ✅ Vérification anti-double inscription
+  const { data: existant } = await supabase
+    .from("inscriptions")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("module_id", moduleActuel.id)
+    .single();
+
+  if (existant) {
+    document.getElementById("message").innerText =
+      "❌ Vous êtes déjà inscrit à ce module.";
+    return;
+  }
+
+  const { error } = await supabase
+    .from("inscriptions")
+    .insert([{
+      user_id: userId,
+      module_id: moduleActuel.id,
+      module_nom: moduleActuel.titre
+    }]);
+
+  if (error) {
+    document.getElementById("message").innerText =
+      "❌ Erreur lors de l'inscription.";
+  } else {
+    document.getElementById("message").innerText =
+      "✅ Inscription validée avec succès !";
+  }
+}
+</script>
+
+</body>
+</html>
