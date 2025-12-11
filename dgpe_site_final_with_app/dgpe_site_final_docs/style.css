@@ -17,18 +17,20 @@ html, body { margin: 0; padding: 0; }
 
 /* ============================
    🌙 FOND GLOBAL (NUIT)
+   ✔️ CHEMIN CORRIGÉ POUR GITHUB PAGES
 ============================ */
 body {
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text);
-  background: url("./assets/fond-nuit.jpg") center/cover fixed no-repeat;
+  background: url("../assets/fond-nuit.jpg") center/cover fixed no-repeat;
 }
 
 /* ============================
    ☀️ FOND PAGE LOGIN
+   ✔️ CHEMIN CORRIGÉ
 ============================ */
 body.login-page {
-  background: url("./assets/fond-jour.jpg") center/cover fixed no-repeat;
+  background: url("../assets/fond-jour.jpg") center/cover fixed no-repeat;
 }
 
 /* ============================
@@ -63,8 +65,9 @@ body.login-page {
 
 .logo {
   height: 140px;
-  width: auto;
   object-fit: contain;
+
+  /* Glow bleu */
   filter: drop-shadow(0 0 6px rgba(30,102,255,0.7))
           drop-shadow(0 0 12px rgba(30,102,255,0.55))
           drop-shadow(0 0 18px rgba(30,102,255,0.35));
@@ -111,6 +114,7 @@ body.login-page {
   padding: 8px 10px;
   border-radius: 10px;
 }
+
 .nav a:hover { background: rgba(255,255,255,.08); }
 
 .nav .pill {
@@ -121,7 +125,7 @@ body.login-page {
 }
 
 /* ============================
-   MENU BURGER
+   MENU BURGER (MOBILE)
 ============================ */
 .burger {
   display: none;
@@ -131,9 +135,8 @@ body.login-page {
   background: transparent;
   padding: 8px;
 }
-.burger span,
-.burger::before,
-.burger::after {
+
+.burger span, .burger::before, .burger::after {
   content: "";
   display: block;
   width: 26px;
@@ -142,6 +145,7 @@ body.login-page {
   margin: 6px 0;
   transition: .3s;
 }
+
 .burger.active::before { transform: translateY(8px) rotate(45deg); }
 .burger.active::after { transform: translateY(-8px) rotate(-45deg); }
 .burger.active span { opacity: 0; }
@@ -153,9 +157,9 @@ body.login-page {
   right: -320px;
   width: 300px;
   height: 100vh;
-  background: rgba(5, 20, 36, .98);
+  background: rgba(5,20,36,.98);
   backdrop-filter: blur(8px);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, .4);
+  box-shadow: -10px 0 30px rgba(0,0,0,.4);
   transition: right .35s ease;
   z-index: 1200;
   padding: 18px;
@@ -177,7 +181,8 @@ body.login-page {
   padding: 10px;
   border-radius: 10px;
 }
-.offcanvas a:hover { background: rgba(255, 255, 255, .08); }
+
+.offcanvas a:hover { background: rgba(255,255,255,.08); }
 
 .offcanvas .close {
   position: absolute;
@@ -188,7 +193,9 @@ body.login-page {
   cursor: pointer;
 }
 
-/* ========== HERO & SECTIONS (pages internes) ========= */
+/* ============================
+   HERO SECTION
+============================ */
 .hero {
   min-height: 56vh;
   display: flex;
@@ -204,13 +211,11 @@ body.login-page {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(
-    -30deg,
-    rgba(255,255,255,.06) 0,
-    rgba(255,255,255,.06) 2px,
-    transparent 2px,
-    transparent 20px
-  );
+  background-image: repeating-linear-gradient(-30deg,
+      rgba(255,255,255,.06) 0,
+      rgba(255,255,255,.06) 2px,
+      transparent 2px,
+      transparent 20px);
 }
 
 .hero .inner {
@@ -221,23 +226,11 @@ body.login-page {
 }
 
 .hero h1 { font-size: 46px; margin: 0 0 10px; }
-.hero p  { color: var(--muted); margin: 0 auto 20px; font-size: 18px; }
+.hero p { color: var(--muted); margin: 0 auto 20px; font-size: 18px; }
 
-.btn {
-  display: inline-block;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 700;
-  background: var(--dgpe-accent);
-  padding: 14px 22px;
-  border-radius: 999px;
-  box-shadow: 0 10px 24px rgba(30,102,255,.25);
-  transition: .25s;
-}
-.btn:hover { transform: translateY(-2px); }
-
-.section { max-width: 1200px; margin: 32px auto; padding: 0 20px; }
-
+/* ============================
+   CARDS
+============================ */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -252,8 +245,12 @@ body.login-page {
   box-shadow: 0 10px 30px rgba(0,0,0,.25);
   transition: .25s;
 }
+
 .card:hover { transform: translateY(-3px); }
 
+/* ============================
+   PANELS / PAGES
+============================ */
 .page { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
 
 .panel {
@@ -264,19 +261,17 @@ body.login-page {
   box-shadow: 0 10px 30px rgba(0,0,0,.25);
 }
 
-/* ========== LOGIN ========== */
-.login-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
-}
+/* ============================
+   LOGIN FORM
+============================ */
+.login-wrap { display: flex; justify-content: center; padding: 30px 16px; }
 
 .login-card {
   width: 420px;
-  background: white;
+  background: #fff;
   color: #0b1a2b;
   border-radius: 16px;
-  padding: 30px;
+  padding: 28px;
   box-shadow: 0 20px 50px rgba(0,0,0,.25);
 }
 
@@ -286,7 +281,9 @@ body.login-page {
   border-radius: 10px;
   border: 1px solid #d0d7de;
   margin: 6px 0 14px;
+  transition: .2s;
 }
+
 .input:focus {
   outline: none;
   border-color: #84b2ff;
@@ -299,11 +296,17 @@ body.login-page {
   align-items: center;
   font-size: 14px;
 }
+
 .row a { color: #0b57d0; text-decoration: none; }
 
-.btn-primary { width: 100%; margin-top: 8px; }
+.btn-primary {
+  width: 100%;
+  margin-top: 8px;
+}
 
-/* ========== FOOTER ========== */
+/* ============================
+   FOOTER
+============================ */
 .footer {
   max-width: 1200px;
   margin: 32px auto;
@@ -312,8 +315,10 @@ body.login-page {
   color: var(--muted);
 }
 
-/* ========== RESPONSIVE ========== */
-@media (max-width: 960px) {
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width:960px) {
   .nav { display: none; }
   .burger { display: block; }
 }
