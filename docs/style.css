@@ -1,3 +1,6 @@
+/* ============================
+   🎨 VARIABLES GLOBALES
+============================ */
 :root {
   --dgpe-accent: #1e66ff;
   --text: #e6edf3;
@@ -6,30 +9,46 @@
   --glass-bd: rgba(255, 255, 255, .08);
 }
 
+/* ============================
+   RESET
+============================ */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 
+/* ============================
+   🌙 FOND GLOBAL (NUIT)
+============================ */
 body {
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text);
-  background: url("/dgpe-elearning/docs/assets/fond-nuit.jpg") center/cover fixed no-repeat;
+
+  /* 🔥 CHEMIN CORRIGÉ POUR GITHUB PAGES */
+  background: url("/dgpe-elearning/docs/assets/fond-nuit.jpg")
+              center/cover fixed no-repeat;
 }
 
+/* ============================
+   ☀️ FOND PAGE LOGIN
+============================ */
 body.login-page {
-  background: url("/dgpe-elearning/docs/assets/fond-jour.jpg") center/cover fixed no-repeat;
+  background: url("/dgpe-elearning/docs/assets/fond-jour.jpg")
+              center/cover fixed no-repeat;
 }
 
-/* ===== NAVBAR ===== */
-.navbar {
+/* ============================
+   NAVBAR
+============================ */
+.navbar, .navbar-login {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(5, 20, 36, .75);
+  background: rgba(5,20,36,.75);
+  border-bottom: 1px solid rgba(255,255,255,.06);
   backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(255, 255, 255, .06);
 }
 
-.navbar .wrap {
+.navbar .wrap,
+.navbar-login .wrap {
   max-width: 1200px;
   margin: 0 auto;
   padding: 12px 20px;
@@ -38,6 +57,7 @@ body.login-page {
   gap: 16px;
 }
 
+/* LOGO + TEXTE */
 .logo-group {
   display: flex;
   align-items: center;
@@ -46,7 +66,6 @@ body.login-page {
 
 .logo {
   height: 140px;
-  width: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 6px rgba(30,102,255,0.7))
           drop-shadow(0 0 12px rgba(30,102,255,0.55))
@@ -56,29 +75,30 @@ body.login-page {
 .brand {
   font-size: 34px;
   font-weight: 700;
-  color: #ffffff;
+  color: #fff;
   white-space: nowrap;
-  display: inline-block;
   transform: translateY(4px);
   animation: pulseGlow 2.5s ease-in-out infinite;
 }
 
+/* Animation Glow */
 @keyframes pulseGlow {
   0% {
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.4),
-                 0 0 8px rgba(30, 102, 255, 0.3);
+    text-shadow: 0 0 4px rgba(255,255,255,0.4),
+                 0 0 8px rgba(30,102,255,0.3);
   }
   50% {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
-                 0 0 18px rgba(30, 102, 255, 0.8),
-                 0 0 28px rgba(30, 102, 255, 0.6);
+    text-shadow: 0 0 10px rgba(255,255,255,0.7),
+                 0 0 18px rgba(30,102,255,0.8),
+                 0 0 28px rgba(30,102,255,0.6);
   }
   100% {
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.4),
-                 0 0 8px rgba(30, 102, 255, 0.3);
+    text-shadow: 0 0 4px rgba(255,255,255,0.4),
+                 0 0 8px rgba(30,102,255,0.3);
   }
 }
 
+/* MENU DESKTOP */
 .nav {
   margin-left: auto;
   display: flex;
@@ -93,29 +113,30 @@ body.login-page {
   padding: 8px 10px;
   border-radius: 10px;
 }
-
-.nav a:hover { background: rgba(255, 255, 255, .08); }
+.nav a:hover { background: rgba(255,255,255,.08); }
 
 .nav .pill {
   background: var(--dgpe-accent);
-  color: #fff;
+  color: white;
   padding: 10px 14px;
   border-radius: 999px;
 }
 
-/* ===== LOGIN ===== */
-.login-wrap { 
-  display: flex; 
-  justify-content: center; 
-  padding: 30px 16px; 
+/* ============================
+   LOGIN CARD
+============================ */
+.login-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
 }
 
 .login-card {
   width: 420px;
-  background: #fff;
+  background: white;
   color: #0b1a2b;
   border-radius: 16px;
-  padding: 28px;
+  padding: 30px;
   box-shadow: 0 20px 50px rgba(0,0,0,.25);
 }
 
@@ -126,8 +147,34 @@ body.login-page {
   border: 1px solid #d0d7de;
   margin: 6px 0 14px;
 }
+.input:focus {
+  outline: none;
+  border-color: #84b2ff;
+  box-shadow: 0 0 0 3px rgba(30,102,255,.2);
+}
 
-.btn-primary {
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.btn {
+  background: var(--dgpe-accent);
+  color: white;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 10px;
+}
+
+/* ============================
+   RESPONSIVE MOBILE
+============================ */
+@media (max-width: 960px) {
+  .nav { display: none; }
 }
