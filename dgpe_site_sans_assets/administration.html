@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administration – DGPE</title>
+
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background: #0b2a4a;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #e53935;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-danger:hover {
+      background: #c62828;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ✅ NAVBAR -->
+<div class="navbar">
+  <div class="wrap">
+    <div class="logo-group">
+      <img src="./assets/img/DGPE_logo.png" class="logo" alt="DGPE">
+      <span class="brand">e-Learning</span>
+    </div>
+
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="module.html">Module</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="administration.html">Administration</a>
+      <a href="login.html" class="pill">Déconnexion</a>
+    </nav>
+  </div>
+</div>
+
+
+
+<!-- ✅ CONTENU ADMIN -->
+<div class="page">
+  <div class="panel">
+    <h2>Administration</h2>
+    <p>Gestion des utilisateurs, modules et inscriptions</p>
+
+    <div class="cards" style="margin-top:10px">
+      <div class="card"><h3>Utilisateurs</h3><p>Créer / modifier / désactiver</p></div>
+      <div class="card"><h3>Catalogue</h3><p>Gérer les fiches & domaines</p></div>
+      <div class="card"><h3>Sessions</h3><p>Planifier & suivre</p></div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ✅ TABLEAU DES INSCRIPTIONS -->
+<section class="wrap" style="padding:40px 0">
+  <h2>📋 Tableau des inscriptions</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Utilisateur</th>
+        <th>Module</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="tableInscriptions"></tbody>
