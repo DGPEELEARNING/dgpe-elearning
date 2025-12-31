@@ -1,0 +1,40 @@
+{
+  "modules": [
+    {
+      "id": 1,
+      "titre": "Introduction à la Finance Publique",
+      "domaine": "Finance Publique",
+      "duree": "2h",
+      "resume": "Comprendre les bases de la gestion financière publique.",
+      "contenu": "<p>Ce module présente les fondements de la gestion financière publique, les acteurs, les mécanismes de contrôle et les enjeux stratégiques.</p>",
+      "image": "assets/img/module1.jpg"
+    },
+    {
+      "id": 2,
+      "titre": "Gouvernance Administrative",
+      "domaine": "Gouvernance",
+      "duree": "3h",
+      "resume": "Découvrir les principes modernes de gouvernance.",
+      "contenu": "<p>Un aperçu complet des modèles de gouvernance, outils de pilotage, cadres réglementaires et bonnes pratiques.</p>",
+      "image": "assets/img/module2.jpg"
+    },
+    {
+      "id": 3,
+      "titre": "Leadership et Management",
+      "domaine": "Leadership",
+      "duree": "1h30",
+      "resume": "Renforcer ses capacités de leadership et de gestion d’équipe.",
+      "contenu": "<p>Ce module développe les compétences clés du leadership moderne : communication, influence, gestion de conflits et motivation.</p>",
+      "image": "assets/img/module3.jpg"
+    },
+    {
+      "id": 4,
+      "titre": "Introduction à l'IA et à la RSE",
+      "domaine": "RSE / IA",
+      "duree": "2h30",
+      "resume": "Comprendre l’impact de l’IA et les enjeux RSE.",
+      "contenu": "<p>Une introduction claire à l’intelligence artificielle appliquée et aux obligations RSE dans le secteur public.</p>",
+      "image": "assets/img/module4.jpg"
+    }
+  ]
+}
