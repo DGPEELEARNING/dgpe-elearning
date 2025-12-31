@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Modules – DGPE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="wrap">
+    <div class="logo-group">
+      <img src="assets/img/dgpe-logo.png" class="logo">
+      <span class="brand">e-Learning</span>
+    </div>
+    <nav class="nav hidden" id="nav-private">
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="modules.html">Modules</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="logoutBtn" class="pill">Déconnexion</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <h1>Liste des modules</h1>
+</main>
+
+<!-- PROTECTION -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabaseClient = supabase.createClient(
+  "https://hrriedjmpwjfmfimqlmx.supabase.co",
+  "sb_publishable_1AnZMUSy3A4X8xIrKJOKQw_cOX40j9V"
+);
+
+(async () => {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) window.location.replace("login.html");
+
+  document.getElementById("nav-private").classList.remove("hidden");
+  document.getElementById("logoutBtn").onclick = async () => {
+    await supabaseClient.auth.signOut();
+    window.location.replace("login.html");
+  };
+})();
+</script>
+
+</body>
+</html>
