@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard – DGPE</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body class="">
+<div class="navbar">
+  <div class="wrap">
+    <div class="logo-group">
+  <img src="./assets/img/DGPE_logo.png" class="logo" alt="DGPE">
+  <span class="brand">e-Learning</span>
+</div>
+
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="module.html">Module</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="administration.html">Administration</a>
+      <a href="login.html" class="pill">Déconnexion</a>
+    </nav>
+    <button class="burger" aria-label="Menu"><span></span></button>
+  </div>
+</div>
+<aside class="offcanvas" aria-hidden="true">
+  <div class="close" aria-label="Fermer">✕</div>
+  <img src="./assets/img/DGPE_logo.png" class="logo" alt="DGPE">
+  <div class="menu">
+    <a href="index.html">Accueil</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a href="module.html">Module</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="administration.html">Administration</a>
+    <a href="login.html">Déconnexion</a>
+  </div>
+</aside>
+
+
+
+<div class="page">
+  <div class="panel">
+    <h2>Tableau de bord</h2>
+    <div id="kpis" class="cards" style="margin-top:10px">
+      <div class="card"><h3>Modules suivis</h3><p><strong>12</strong></p></div>
+      <div class="card"><h3>Heures de formation</h3><p><strong>34 h</strong></p></div>
+      <div class="card"><h3>Certifications</h3><p><strong>3</strong></p></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px">
+    <h3>Progression</h3>
+    <div id="chart-progress" style="height:280px"></div>
+  </div>
+  <div class="panel" style="margin-top:18px">
+    <h3>Répartition par domaine</h3>
+    <div id="chart-donut" style="height:300px"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  if (window.ApexCharts){
+    const line = new ApexCharts(document.querySelector("#chart-progress"), {
+      chart:{type:'line',toolbar:{show:false},background:'transparent'},
+      series:[{name:'Heures', data:[2,3,4,3,5,6,5,4]}],
+      xaxis:{categories:['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août'], labels:{style:{colors:'#a7b1bd'}}},
+      yaxis:{labels:{style:{colors:'#a7b1bd'}}},
+      stroke:{width:3,curve:'smooth'}, colors:['#1e66ff']
+    }); line.render();
+    const donut = new ApexCharts(document.querySelector("#chart-donut"), {
+      chart:{type:'donut',toolbar:{show:false}},
+      series:[44,26,30],
+      labels:['Gouvernance','Finance','Leadership'],
+      colors:['#1e66ff','#0ea5e9','#22c55e'],
+      legend:{labels:{colors:'#a7b1bd'}}
+    }); donut.render();
+  }
+});
+</script>
+
+<footer class="footer">© 2025 DGPE – Direction Générale du Portefeuille de l’État</footer>
+<script src="./assets/js/app.js"></script>
+</body>
+</html>

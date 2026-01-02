@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module – DGPE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="wrap">
+    <div class="logo-group">
+      <img src="assets/img/dgpe-logo.png" class="logo" alt="DGPE">
+      <span class="brand">e-Learning</span>
+    </div>
+
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <section class="panel" id="modulePanel">
+    <p>Chargement du module…</p>
+  </section>
+
+  <!-- Section des détails du module -->
+  <section class="module-details">
+    <p><strong>Domaine :</strong> <span id="moduleDomaine">Chargement...</span></p>
+    <p><strong>Durée :</strong> <span id="moduleDuree">Chargement...</span></p>
+  </section>
+
+  <!-- Formulaire d'inscription -->
+  <section class="module-buttons">
+    <form id="inscriptionForm">
+      <label for="userName">Nom :</label>
+      <input type="text" id="userName" placeholder="Entrez votre nom" required><br><br>
+      <button type="submit" class="btn">S'inscrire à ce module</button>
+    </form>
+  </section>
+</main>
+
+<footer class="footer">
+  © 2025 DGPE – Direction Générale du Portefeuille de l’État
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+// ================= CONFIG ================= 
+const firebaseConfig = {
+  apiKey: "AIzaSyDLeMFoRoclFnfubLqhJBvwtySxLttyHqs",
+  authDomain: "dgpe-elearning.firebaseapp.com",
+  projectId: "dgpe-elearning"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// Fonction pour récupérer l'ID du module depuis l'URL
+function getModuleId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("id");
+}
+
+// Fonction pour normaliser le texte (enlever les accents et caractères spéciaux)
+function normalize(txt = "") {
+  return String(txt)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, " et ")
+    .replace(/[:]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// ================= DURÉES OFFICIELLES DGPE ================= 
+const dureesDGPE = {
+  [normalize("Gouvernance stratégique et analyse financière")]: "4 j",
+  [normalize("Pilotage stratégique")]: "4 j",
+  [normalize("Audit & conformité")]: "3 j",
+  [normalize("Performance & KPI")]: "2 j",
+  [normalize("Transformation digitale")]: "3 j",
+  [normalize("IA & Décision")]: "2 j",
+  [normalize("Leadership")]: "2 j",
+  [normalize("Communication de crise")]: "2 j",
+  [normalize("RSE : Concevoir et piloter une stratégie durable")]: "3 j",
+  [normalize("Manager le changement durable")]: "2 j"
+};
+
+// Fonction pour obtenir le titre du module
+function getTitre(m = {}) {
+  return m.titre || m.title || m.nom || m.name || "";
+}
+
+// Fonction pour obtenir la durée affichée du module
+function getDureeAffichee(m = {}) {
+  const titre = getTitre(m);
+  const official = dureesDGPE[normalize(titre)];
+  if (official) return official;
+
+  if (m.duree) return m.duree;
+  if (m.nbHeures) return `${m.nbHeures} h`;
+  if (m.heures) return `${m.heures} h`;
+  return "—";
+}
+
+// Charger les données du module depuis Firestore
+async function chargerModule() {
+  const id = getModuleId();
+  const panel = document.getElementById("modulePanel");
+  const domaineElem = document.getElementById("moduleDomaine");
+  const dureeElem = document.getElementById("moduleDuree");
+
+  if (!id) {
+    panel.innerHTML = "<p>❌ Aucun module sélectionné. L'ID du module est manquant.</p>";
+    return;
+  }
+
+  try {
+    const snap = await getDoc(doc(db, "modules", id));
+
+    if (!snap.exists()) {
+      panel.innerHTML = "<p>❌ Module inexistant. Impossible de trouver le module avec cet ID.</p>";
+      return;
+    }
+
+    const m = snap.data();
+    const titre = getTitre(m);
+    const dureeAffichee = getDureeAffichee(m);
+
+    // Afficher les informations du module
+    panel.innerHTML = `
+      <h2>${titre}</h2>
+      <p style="color:#a7b1bd; margin-bottom:1rem">
+        ${m.domaine || "—"} • ${dureeAffichee}
+      </p>
+      <p>${m.resume || ""}</p>
+      <a href="catalogue.html" class="btn" style="margin-top:1.5rem">← Retour au catalogue</a>
+    `;
+
+    // Mise à jour des détails sous le module
+    domaineElem.innerText = m.domaine || "—";
+    dureeElem.innerText = dureeAffichee;
+
+  } catch (e) {
+    console.error("Erreur lors du chargement du module:", e);
+    panel.innerHTML = "❌ Une erreur est survenue lors du chargement du module.";
+  }
+}
+
+// Fonction pour inscrire un utilisateur au module
+document.getElementById('inscriptionForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const userName = document.getElementById('userName').value;
+  const moduleId = getModuleId();
+
+  if (!userName) {
+    alert("⚠️ Veuillez entrer votre nom.");
+    return;
+  }
+
+  try {
+    // Ajout de l'utilisateur à Firestore dans la collection 'inscriptions'
+    await setDoc(doc(db, "inscriptions", userName + "-" + moduleId), {
+      userName: userName,
+      moduleId: moduleId,
+      dateInscription: new Date()
+    });
+
+    alert("✅ Inscription réussie !");
+  } catch (error) {
+    console.error("Erreur d'inscription:", error);
+    alert("❌ Une erreur est survenue lors de l'inscription.");
+  }
+});
+
+// Charger le module au chargement de la page
+chargerModule();
+</script>
+
+</body>
+</html>
